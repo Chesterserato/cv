@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChesterCV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --panel-bg: #161b22;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --accent-green: #3fb950;
+            --accent-blue: #58a6ff;
+            --error-red: #f85149;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            background-image: radial-gradient(circle at 50% 0%, #1f2937 0%, transparent 50%);
+        }
+
+        .form-wrapper { width: 100%; max-width: 750px; }
+
+        .terminal-header {
+            background: #010409;
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mac-btn { width: 12px; height: 12px; border-radius: 50%; }
+        .close { background: #ff5f56; }
+        .min { background: #ffbd2e; }
+        .max { background: #27c93f; }
+        .terminal-title { margin-left: 10px; font-size: 12px; color: #8b949e; }
+
+        .form-container {
+            background: var(--panel-bg);
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--accent-green);
+        }
+
+        h2::before { content: "> "; color: var(--accent-blue); }
+
+        .sub-text {
+            color: #8b949e;
+            margin-bottom: 35px;
+            font-size: 14px;
+        }
+
+        .form-group { margin-bottom: 25px; }
+        .grid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: var(--accent-blue);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 1px var(--accent-blue);
+        }
+
+        textarea { min-height: 100px; resize: vertical; }
+
+        .preview-box { margin-top: 15px; }
+
+        #img-preview {
+            display: none;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 2px dashed var(--border-color);
+            border-radius: 4px;
+            filter: grayscale(20%) contrast(1.2); /* Slightly raw/candid look */
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #238636;
+            color: white;
+            border: 1px solid rgba(240, 246, 252, 0.1);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover { background-color: #2ea043; }
+
+        @media (max-width: 600px) { .grid-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="form-wrapper">
+        <div class="terminal-header">
+            <div class="mac-btn close"></div>
+            <div class="mac-btn min"></div>
+            <div class="mac-btn max"></div>
+            <div class="terminal-title">bash - generate_profile.sh</div>
+        </div>
+        <div class="form-container">
+            <h2>Fill-up the Form CV</h2>
+            <p class="sub-text">Enter environment variables to compile your system profile.</p>
+            
+            <form action="generate.php" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Profile Avatar</label>
+                    <input type="file" name="profile_pic" id="profile_pic" accept="image/*" required>
+                    <div class="preview-box">
+                        <img id="img-preview" src="" alt="Preview">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Fullname</label>
+                    <input type="text" name="fullname" placeholder="Chester Serato" required>
+                </div>
+
+                <div class="grid-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="chester.serato@evsu.edu.ph" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" placeholder="+00 123 456 789" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" name="address" placeholder="Ormoc City, Leyte" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Summary</label>
+                    <textarea name="summary" placeholder="/* Initialize brief summary of capabilities... */" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>KNOWLEDGE_BASE</label>
+                    <textarea name="education" placeholder="Array of degrees and institutions..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>DEPENDENCIES (Skills)</label>
+                    <textarea name="skills" placeholder="C++, Python, Routing protocols, CLI..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">[ Execute Build ]</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
